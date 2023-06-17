@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // import services
+import 'package:flutter/services.dart'; // serwisy
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) // Set portrait orientation
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) // Orientacja
       .then((_) {
     runApp(MyApp());
   });
@@ -14,6 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+theme: ThemeData(
+  primarySwatch: Colors.blue,
+  colorScheme: ThemeData().colorScheme.copyWith(secondary: Colors.amber),
+),
       home: StopwatchPage(),
     );
   }
@@ -85,64 +90,77 @@ class _StopwatchPageState extends State<StopwatchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stopwatch'),
+        title: const Text('Stoper'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Stopwatch',
-              style: Theme.of(context).textTheme.headlineMedium,
+            // Text(
+            //   '',
+            //   style: Theme.of(context).textTheme.headlineSmall,
+            // ),
+            SizedBox(
+              height: 50, // Przerwa
             ),
             Text(
               formatDuration(_durationStopwatch),
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
             const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: _startStopwatch,
-              child: const Text('Start Stopwatch'),
-            ),
-            ElevatedButton(
-              onPressed: _stopStopwatch,
-              child: const Text('Stop Stopwatch'),
-            ),
-            ElevatedButton(
-              onPressed: _resetStopwatch,
-              child: const Text('Reset Stopwatch'),
-            ),
-            ElevatedButton(
-              onPressed: _lapStopwatch,
-              child: const Text('Lap Stopwatch'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(
+                  onPressed: _startStopwatch,
+                  child: Icon(Icons.play_arrow),
+                ),
+                SizedBox(width: 10),
+                FloatingActionButton(
+                  onPressed: _stopStopwatch,
+                  child: Icon(Icons.pause),
+                ),
+                SizedBox(width: 10),
+                FloatingActionButton(
+                  onPressed: _resetStopwatch,
+                  child: Icon(Icons.stop),
+                ),
+                SizedBox(width: 10),
+                FloatingActionButton(
+                  onPressed: _lapStopwatch,
+                  child: Icon(Icons.flag),
+                ),
+              ],
             ),
             const SizedBox(height: 30),
             Text(
-              'Laps',
-              style: Theme.of(context).textTheme.headlineMedium,
+              'Okrążenia',
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             Expanded(
               child: ListView.builder(
                 itemCount: _laps.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      'Lap ${index + 1}: ${formatDuration(_laps[index])}',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.refresh),
-                          onPressed: () => _updateLap(index),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () => _deleteLap(index),
-                        ),
-                      ],
+                  return Card(
+                    child: ListTile(
+                      title: Text(
+                        'Okrążenie ${index + 1}: ${formatDuration(_laps[index])}',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.refresh),
+                            onPressed: () => _updateLap(index),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () => _deleteLap(index),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
