@@ -102,7 +102,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
             //   style: Theme.of(context).textTheme.headlineSmall,
             // ),
             SizedBox(
-              height: 50, // Przerwa
+              height: 50, // Przerwa między tytułem, a miernikiem
             ),
             Text(
               formatDuration(_durationStopwatch),
