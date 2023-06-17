@@ -1,7 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // import services
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) // Set portrait orientation
+      .then((_) {
+    runApp(MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -21,7 +28,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
   final Stopwatch _stopwatch = Stopwatch();
   late Timer _timerStopwatch;
   Duration _durationStopwatch = const Duration();
-  List<Duration> _laps = <Duration>[];
+  final List<Duration> _laps = <Duration>[];
 
   String formatDuration(Duration d) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
@@ -87,11 +94,11 @@ class _StopwatchPageState extends State<StopwatchPage> {
           children: <Widget>[
             Text(
               'Stopwatch',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             Text(
               formatDuration(_durationStopwatch),
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 30),
             ElevatedButton(
@@ -113,7 +120,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
             const SizedBox(height: 30),
             Text(
               'Laps',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             Expanded(
               child: ListView.builder(
@@ -122,7 +129,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
                   return ListTile(
                     title: Text(
                       'Lap ${index + 1}: ${formatDuration(_laps[index])}',
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
